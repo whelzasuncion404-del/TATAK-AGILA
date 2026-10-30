@@ -1,0 +1,48 @@
+<ion-content [fullscreen]="true" class="page-content">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">TATAK AGILA / INVENTORY</p>
+      <h1>Available Items</h1>
+      <p>Browse supplies and equipment currently available for use.</p>
+    </div>
+    <button class="back-home" (click)="go('dashboard')">← Dashboard</button>
+  </header>
+
+  <section class="filter-panel">
+    <ion-searchbar [(ngModel)]="searchText" placeholder="Search item or location" [debounce]="150"></ion-searchbar>
+    <ion-segment [(ngModel)]="selectedCategory" scrollable>
+      @for (category of categories; track category) {
+        <ion-segment-button [value]="category"><ion-label>{{ category }}</ion-label></ion-segment-button>
+      }
+    </ion-segment>
+  </section>
+
+  <p class="result-count">{{ filteredItems.length }} item(s) found <span>{{ inventorySourceLabel }}</span></p>
+  @if (filteredItems.length) {
+    <section class="items-grid">
+      @for (item of filteredItems; track item.id) {
+        <article class="item-card">
+          <div class="item-card-top">
+            <div class="item-symbol">{{ item.category === 'Equipment' ? '▣' : item.category === 'Cleaning Supplies' ? '✦' : '▤' }}</div>
+            <div class="item-actions">
+              <span class="available-badge">Available</span>
+            </div>
+          </div>
+          <p class="category">{{ item.category }}</p>
+          <h2>{{ item.name }}</h2>
+          <div class="quantity"><strong>{{ item.quantity }}</strong><span>{{ item.unit }} in stock</span></div>
+          <div class="item-location">⌖ {{ item.location }}</div>
+        </article>
+      }
+    </section>
+  } @else {
+    <div class="empty-state"><span>⌕</span><h2>No items found</h2><p>Try another keyword or category.</p></div>
+  }
+
+  <nav class="mobile-nav">
+    <button (click)="go('dashboard')">⌂<small>Home</small></button>
+    <button class="selected" (click)="go('available')">▤<small>Available</small></button>
+    <button (click)="go('department')">▦<small>Department</small></button>
+    <button (click)="go('settings')">⚙<small>Settings</small></button>
+  </nav>
+</ion-content>

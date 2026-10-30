@@ -1,0 +1,87 @@
+<ion-content [fullscreen]="true" class="auth-content">
+  <div class="auth-shell">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="assets/tatak-agila-logo.png" alt="" />
+      </div>
+      <div>
+        <p class="brand-name">TATAK AGILA</p>
+        <p class="brand-subtitle">CSU–Carig Business Office</p>
+      </div>
+    </div>
+
+    @if (screen === 'welcome') {
+      <div class="hero">
+        <div class="eagle-art">
+          <img src="assets/tatak-agila-logo.png" alt="Tatak Agila eagle logo" />
+        </div>
+        <p class="eyebrow">INVENTORY MANAGEMENT</p>
+        <h1>Every item.<br><span>In its place.</span></h1>
+        <p class="intro">A smarter way to organize, monitor, and manage Business Office supplies and equipment.</p>
+      </div>
+
+      <div class="auth-actions">
+        <ion-button expand="block" class="primary-button" (click)="openLogin()">Log In</ion-button>
+        <ion-button expand="block" fill="outline" class="outline-button" (click)="openRegister()">Create an Account</ion-button>
+        <button class="text-button" type="button" (click)="continueAsGuest()">Continue as guest</button>
+        <button class="admin-entry" type="button" (click)="openAdminLogin()">CSU Admin</button>
+      </div>
+      <p class="footer-note">CAGAYAN STATE UNIVERSITY · CARIG CAMPUS</p>
+    } @else if (screen === 'login') {
+      <button class="back-button" type="button" (click)="backToWelcome()">← Back</button>
+      <div class="form-heading">
+        <p class="eyebrow">WELCOME BACK</p>
+        <h1>Log in to<br><span>your account.</span></h1>
+        <p>Enter your account details to continue.</p>
+      </div>
+      <form class="auth-form" (ngSubmit)="login()">
+        <ion-label>Email address</ion-label>
+        <ion-input type="email" name="loginEmail" [(ngModel)]="loginEmail" placeholder="you@example.com" autocomplete="username" required></ion-input>
+        <ion-label>Password</ion-label>
+        <div class="password-wrap">
+          <ion-input [type]="showLoginPassword ? 'text' : 'password'" name="loginPassword" [(ngModel)]="loginPassword" placeholder="Enter your password" autocomplete="current-password" required></ion-input>
+          <button type="button" class="show-password" (click)="showLoginPassword = !showLoginPassword">{{ showLoginPassword ? 'Hide' : 'Show' }}</button>
+        </div>
+        <button type="button" class="forgot-button" (click)="forgotPassword()">Forgot password?</button>
+        <ion-button type="submit" expand="block" class="primary-button form-submit">Log In</ion-button>
+      </form>
+      <p class="switch-text">New to Tatak Agila? <button type="button" (click)="openRegister()">Create an account</button></p>
+      <p class="demo-note">Demo login accepts any email and password. It is not secure and does not sync across devices.</p>
+    } @else if (screen === 'admin-login') {
+      <button class="back-button" type="button" (click)="backToWelcome()">← Back</button>
+      <div class="form-heading">
+        <p class="eyebrow">CSU ADMINISTRATOR</p>
+        <h1>Admin<br><span>sign in.</span></h1>
+        <p>Sign in to manage the shared inventory and departments.</p>
+      </div>
+      <form class="auth-form" (ngSubmit)="adminLogin()">
+        <ion-label>Username</ion-label>
+        <ion-input name="adminUsername" [(ngModel)]="adminUsername" placeholder="Enter admin username" autocomplete="username" required></ion-input>
+        <ion-label>Password</ion-label>
+        <ion-input type="password" name="adminPassword" [(ngModel)]="adminPassword" placeholder="Enter admin password" autocomplete="current-password" required></ion-input>
+        <ion-button type="submit" expand="block" class="primary-button form-submit">Sign In as Admin</ion-button>
+      </form>
+      <p class="demo-note">Prototype admin access is stored in this app and is not protected by a secure server.</p>
+    } @else {
+      <button class="back-button" type="button" (click)="backToWelcome()">← Back</button>
+      <div class="form-heading">
+        <p class="eyebrow">GET STARTED</p>
+        <h1>Create your<br><span>account.</span></h1>
+        <p>Set up your profile to access the inventory dashboard.</p>
+      </div>
+      <form class="auth-form" (ngSubmit)="register()">
+        <ion-label>Full name</ion-label>
+        <ion-input name="fullName" [(ngModel)]="fullName" placeholder="Enter your full name" autocomplete="name" required></ion-input>
+        <ion-label>Email address</ion-label>
+        <ion-input type="email" name="registerEmail" [(ngModel)]="registerEmail" placeholder="you@example.com" autocomplete="email" required></ion-input>
+        <ion-label>Password</ion-label>
+        <ion-input [type]="showRegisterPassword ? 'text' : 'password'" name="registerPassword" [(ngModel)]="registerPassword" placeholder="At least 6 characters" required></ion-input>
+        <ion-label>Confirm password</ion-label>
+        <ion-input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Re-enter your password" required></ion-input>
+        <ion-button type="submit" expand="block" class="primary-button form-submit">Create Account</ion-button>
+      </form>
+      <p class="switch-text">Already registered? <button type="button" (click)="openLogin()">Log in</button></p>
+      <p class="demo-note">Local demo only. Account details are not saved or verified; use the login form to continue.</p>
+    }
+  </div>
+</ion-content>

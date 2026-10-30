@@ -1,0 +1,93 @@
+<ion-content [fullscreen]="true" class="page-content">
+  @if (selectedDepartment; as department) {
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">TATAK AGILA / DEPARTMENT INVENTORY</p>
+        <h1>{{ department.name }}</h1>
+        <p>Inventory assigned to this department.</p>
+      </div>
+      <button class="back-home" (click)="showDepartments()">← Departments</button>
+    </header>
+
+    <section class="department-detail">
+      <div class="detail-summary">
+        <span class="dept-icon">{{ department.initials }}</span>
+        <div>
+          <span class="dept-code">{{ department.code }}</span>
+          <p class="manager">⌖ {{ department.manager }}</p>
+        </div>
+        <div class="detail-count">
+          <strong>{{ getProductsForDepartment(department.name).length }}</strong>
+          <span>Assigned products</span>
+        </div>
+      </div>
+
+      @if (getProductsForDepartment(department.name).length) {
+        <ul class="assigned-products">
+          @for (product of getProductsForDepartment(department.name); track product.id) {
+            <li>
+              <span>{{ product.name }}<small>{{ product.category }} · {{ product.location }}</small></span>
+              <strong>{{ product.quantity }} {{ product.unit }}</strong>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="empty-inventory">
+          <span aria-hidden="true">▤</span>
+          <h2>No inventory assigned yet</h2>
+          <p>Products assigned to {{ department.name }} will appear here.</p>
+        </div>
+      }
+    </section>
+  } @else {
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">TATAK AGILA / ORGANIZATION</p>
+        <h1>Departments</h1>
+        <p>Explore departments and the inventory assigned to each area.</p>
+      </div>
+      <button class="back-home" (click)="go('dashboard')">← Dashboard</button>
+    </header>
+
+    <section class="summary-banner">
+      <div>
+        <span class="summary-label">REGISTERED DEPARTMENTS / COLLEGES</span>
+        <strong>{{ departments.length }}</strong>
+        <p>Choose a department to view its assigned inventory.</p>
+      </div>
+      <div class="summary-icon">▦</div>
+    </section>
+
+    <section class="department-grid">
+      @for (department of departments; track department.name) {
+        <button
+          type="button"
+          class="department-card"
+          (click)="openDepartment(department)"
+          [attr.aria-label]="'View inventory for ' + department.name"
+        >
+          <span class="dept-head">
+            <span class="dept-icon">{{ department.initials }}</span>
+            <span class="dept-code">{{ department.code }}</span>
+          </span>
+          <span class="department-name">{{ department.name }}</span>
+          <span class="manager">⌖ {{ department.manager }}</span>
+          <span class="dept-footer">
+            <span>
+              <strong>{{ getProductsForDepartment(department.name).length }}</strong>
+              <small>Assigned products</small>
+            </span>
+            <span class="view-label">View inventory →</span>
+          </span>
+        </button>
+      }
+    </section>
+  }
+
+  <nav class="mobile-nav">
+    <button (click)="go('dashboard')">⌂<small>Home</small></button>
+    <button (click)="go('available')">▤<small>Available</small></button>
+    <button class="selected" (click)="go('department')">▦<small>Department</small></button>
+    <button (click)="go('settings')">⚙<small>Settings</small></button>
+  </nav>
+</ion-content>

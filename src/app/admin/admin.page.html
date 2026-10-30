@@ -1,0 +1,188 @@
+<ion-content [fullscreen]="true" class="admin-content">
+  <div class="admin-layout">
+<!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/tatak-agila-logo.png" alt="Tatak Agila Logo" />
+        <div>
+          <strong>TATAK AGILA</strong>
+          <small>CSU ADMIN</small>
+        </div>
+      </div>
+      <div class="admin-nav-label">ADMINISTRATION</div>
+      <a class="admin-nav active" href="#admin-dashboard"><span>⌂</span> Dashboard</a>
+      
+      <div class="sidebar-account">
+        <div class="admin-avatar">A</div>
+        <div>
+          <strong>CSU Admin</strong>
+          <small>Administrator</small>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Panel -->
+    <main class="admin-main" id="admin-dashboard">
+      <header class="admin-topbar">
+        <div>
+          <p class="admin-crumb">CSU ADMINISTRATION / INVENTORY MANAGEMENT</p>
+          <h1>Admin Dashboard</h1>
+        </div>
+        <ion-button fill="outline" class="logout-button" (click)="logout()">Log out</ion-button>
+      </header>
+
+      <!-- Welcome Banner -->
+      <section class="admin-welcome">
+        <div>
+          <p class="admin-eyebrow">CAGAYAN STATE UNIVERSITY · CARIG CAMPUS</p>
+          <h2>Inventory Control Center</h2>
+          <p>Seamlessly manage shared inventory visible across student accounts and departments.</p>
+        </div>
+        <span class="welcome-mark" aria-hidden="true">TA</span>
+      </section>
+
+      <!-- Quick Metrics Statistics -->
+      <section class="admin-stats" aria-label="Inventory summary">
+        <article class="stat-card">
+          <span>Total products</span>
+          <strong>{{ products.length }}</strong>
+          <small>Items tracked in system</small>
+        </article>
+        <article class="stat-card">
+          <span>Available</span>
+          <strong>{{ availableCount }}</strong>
+          <small>Unassigned to department</small>
+        </article>
+        <article class="stat-card">
+          <span>Department assigned</span>
+          <strong>{{ assignedCount }}</strong>
+          <small>Allocated to departments</small>
+        </article>
+        <article class="stat-card">
+          <span>Departments</span>
+          <strong>{{ departments.length }}</strong>
+          <small>Active campus units</small>
+        </article>
+      </section>
+
+      <!-- Two-Column Layout: Add/Edit Form & Inventory List -->
+      <section class="admin-columns">
+        
+        <!-- Product Form Panel -->
+        <article class="admin-panel add-panel" id="product-form">
+          <div class="panel-heading">
+            <div>
+              <h2>{{ editingProductId ? 'Edit Product' : 'Add New Product' }}</h2>
+              <p>{{ editingProductId ? 'Update existing item details.' : 'Register a new item for student view.' }}</p>
+            </div>
+            <span class="panel-icon">＋</span>
+          </div>
+          
+          <form (ngSubmit)="saveProduct()">
+            <div class="form-group">
+              <label for="product-name">Product name</label>
+              <ion-input id="product-name" name="productName" [(ngModel)]="productName" placeholder="e.g. Bond Paper A4" required></ion-input>
+            </div>
+
+            <div class="form-group">
+              <label for="product-category">Category</label>
+              <ion-select id="product-category" name="category" [(ngModel)]="category" interface="popover" placeholder="Select category">
+                @for (option of categories; track option) {
+                  <ion-select-option [value]="option">{{ option }}</ion-select-option>
+                }
+              </ion-select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="product-quantity">Quantity</label>
+                <ion-input id="product-quantity" name="quantity" type="number" min="0" step="1" [(ngModel)]="quantity" placeholder="0" required></ion-input>
+              </div>
+              <div class="form-group">
+                <label for="product-unit">Unit</label>
+                <ion-input id="product-unit" name="unit" [(ngModel)]="unit" placeholder="e.g. reams / pcs" required></ion-input>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="product-location">Storage location</label>
+              <ion-input id="product-location" name="location" [(ngModel)]="location" placeholder="e.g. Main Supply Room" required></ion-input>
+            </div>
+
+            <div class="form-group">
+              <label for="product-department">Assign department (optional)</label>
+              <ion-select id="product-department" name="departmentName" [(ngModel)]="departmentName" interface="popover" placeholder="Select department">
+                <ion-select-option [value]="null">Available / unassigned</ion-select-option>
+                @for (department of departments; track department.name) {
+                  <ion-select-option [value]="department.name">{{ department.name }}</ion-select-option>
+                }
+              </ion-select>
+              <p class="field-hint">Unassigned items appear under general available items.</p>
+            </div>
+
+            <div class="form-actions">
+              <ion-button type="submit" class="save-product">{{ editingProductId ? 'Save Changes' : 'Add to Inventory' }}</ion-button>
+              @if (editingProductId) {
+                <button type="button" class="cancel-edit" (click)="resetForm()">Cancel</button>
+              }
+            </div>
+          </form>
+        </article>
+
+        <!-- Student Inventory Management Panel -->
+        <section class="admin-panel inventory-panel" id="inventory">
+          <div class="panel-heading inventory-heading">
+            <div>
+              <h2>Inventory Catalog</h2>
+              <p>Manage, search, and update all active inventory listings.</p>
+            </div>
+            <span class="inventory-count">{{ filteredProducts.length }} items</span>
+          </div>
+
+          <ion-input
+            class="inventory-search"
+            name="inventorySearch"
+            [(ngModel)]="searchText"
+            placeholder="Search by product, category, location..."
+            clear-input="true"
+          ></ion-input>
+
+          @if (filteredProducts.length) {
+            <div class="product-list">
+              @for (product of filteredProducts; track product.id) {
+                <article class="product-row">
+                  <div class="product-symbol">
+                    {{ product.category === 'Equipment' ? '▣' : product.category === 'Cleaning Supplies' ? '✦' : '▤' }}
+                  </div>
+                  <div class="product-info">
+                    <strong>{{ product.name }}</strong>
+                    <span>{{ product.category }} · {{ product.location }}</span>
+                    <small>{{ product.departmentName ?? 'Available / unassigned' }}</small>
+                  </div>
+                  <div class="product-quantity">
+                    <strong>{{ product.quantity }}</strong>
+                    <span>{{ product.unit }}</span>
+                  </div>
+                  <div class="product-actions">
+                    <button type="button" class="edit-product" (click)="editProduct(product)">Edit</button>
+                    <button type="button" class="delete-product" (click)="deleteProduct(product)">Delete</button>
+                  </div>
+                </article>
+              }
+            </div>
+          } @else {
+            <div class="inventory-empty">
+              <span aria-hidden="true">⌕</span>
+              <h3>{{ products.length ? 'No matching items found' : 'Inventory Catalog is Empty' }}</h3>
+              <p>{{ products.length ? 'Refine your search parameters.' : 'Add your first product using the registration form.' }}</p>
+            </div>
+          }
+        </section>
+      </section>
+
+      <footer class="admin-footer">
+        TATAK AGILA · CSU–CARIG BUSINESS OFFICE <span>Secure Admin Portal</span>
+      </footer>
+    </main>
+  </div>
+</ion-content>

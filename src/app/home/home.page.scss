@@ -1,0 +1,268 @@
+.auth-content {
+  --background: #ffffff;
+}
+
+.auth-shell {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 520px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: max(24px, env(safe-area-inset-top)) clamp(18px, 5vw, 24px) max(22px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+/* Brand Header */
+.brand { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  min-width: 0; 
+}
+.brand > div:last-child { min-width: 0; }
+.brand-mark {
+  width: 58px; 
+  height: 46px; 
+  flex: 0 0 58px;
+  display: grid; 
+  place-items: center;
+}
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.brand-name { 
+  margin: 0; 
+  color: #cc0000; 
+  font-weight: 900; 
+  letter-spacing: clamp(1px, .45vw, 1.7px); 
+  font-size: clamp(12px, 3.6vw, 14px); 
+  text-transform: uppercase;
+}
+.brand-subtitle { 
+  margin: 4px 0 0; 
+  color: #666666; 
+  font-size: clamp(10px, 2.8vw, 11px); 
+}
+
+/* Warnings & Banners */
+.backend-warning { 
+  margin: 18px 0 0; 
+  padding: 11px 13px; 
+  border: 1px solid #ffcccc; 
+  border-radius: 9px; 
+  background: #fff5f5; 
+  color: #990000; 
+  font-size: 11px; 
+  line-height: 1.5; 
+}
+
+/* Hero & Artwork */
+.hero { 
+  margin: auto 0 32px; 
+  padding-top: 40px; 
+}
+.eagle-art {
+  height: 150px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  margin-bottom: 24px; 
+  position: relative; 
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(204, 0, 0, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+}
+.eagle-art img {
+  display: block;
+  width: min(76%, 260px);
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Typography */
+.eyebrow { 
+  color: #cc0000; 
+  font-size: 10px; 
+  font-weight: 800; 
+  letter-spacing: 2px; 
+  margin: 0 0 12px; 
+  text-transform: uppercase;
+}
+h1 { 
+  color: #1a1a1a; 
+  font-size: clamp(34px, 9vw, 47px); 
+  line-height: 1.06; 
+  letter-spacing: -1.8px; 
+  font-weight: 850; 
+  margin: 0 0 16px; 
+}
+h1 span { 
+  color: #cc0000; 
+}
+.intro, .form-heading > p:last-child { 
+  color: #555555; 
+  font-size: 14px; 
+  line-height: 1.75; 
+  max-width: 390px; 
+}
+
+/* Actions & Buttons */
+.auth-actions { display: grid; gap: 12px; }
+
+ion-button.primary-button { 
+  --background: #cc0000; 
+  --background-hover: #a30000; 
+  --background-activated: #800000;
+  --border-radius: 13px; 
+  --box-shadow: 0 4px 12px rgba(204, 0, 0, 0.25); 
+  --color: #ffffff; 
+  height: 51px; 
+  font-weight: 700; 
+  text-transform: none; 
+}
+
+ion-button.outline-button { 
+  --border-color: #cc0000; 
+  --color: #cc0000; 
+  --border-radius: 13px; 
+  --background: #ffffff;
+  --background-hover: #fff5f5;
+  height: 50px; 
+  font-weight: 700; 
+  text-transform: none; 
+}
+
+.text-button, .forgot-button, .back-button, .switch-text button { 
+  border: 0; 
+  background: transparent; 
+  color: #cc0000; 
+  font-weight: 700; 
+  cursor: pointer;
+}
+.text-button { padding: 8px; font-size: 13px; }
+
+.admin-entry { 
+  justify-self: center; 
+  padding: 10px 14px; 
+  border: 1px solid #e6e6e6; 
+  border-radius: 10px; 
+  background: #ffffff; 
+  color: #666666; 
+  font-size: 12px; 
+  font-weight: 700; 
+  transition: all 0.2s ease;
+}
+.admin-entry:hover {
+  border-color: #cc0000;
+  color: #cc0000;
+}
+
+.footer-note { 
+  margin: 28px 0 0; 
+  text-align: center; 
+  color: #999999; 
+  font-size: 9px; 
+  letter-spacing: 1.4px; 
+}
+.back-button { 
+  align-self: flex-start; 
+  margin: 28px 0 30px; 
+  padding: 0; 
+  font-size: 14px; 
+}
+
+/* Form Styles */
+.form-heading { margin-bottom: 26px; }
+.form-heading h1 { font-size: clamp(32px, 8vw, 42px); }
+
+.auth-form { display: grid; gap: 10px; }
+.auth-form ion-label { 
+  color: #333333; 
+  font-size: 12px; 
+  font-weight: 700; 
+  margin-top: 7px; 
+}
+
+.auth-form ion-input { 
+  --background: #ffffff; 
+  --border-radius: 12px; 
+  --padding-start: 14px; 
+  --padding-end: 14px; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 12px; 
+  min-height: 48px; 
+  font-size: 14px; 
+}
+.auth-form ion-input:focus-within {
+  border-color: #cc0000;
+}
+
+.password-wrap { 
+  display: flex; 
+  align-items: center; 
+  background: #ffffff; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 12px; 
+  padding-right: 10px; 
+}
+.password-wrap:focus-within {
+  border-color: #cc0000;
+}
+.password-wrap ion-input { border: 0; }
+
+.show-password { 
+  border: 0; 
+  background: transparent; 
+  color: #cc0000; 
+  font-size: 12px; 
+  font-weight: 700; 
+  cursor: pointer;
+}
+
+.forgot-button { justify-self: end; padding: 6px 0 10px; font-size: 12px; }
+.form-submit { margin-top: 8px; }
+
+.switch-text { 
+  text-align: center; 
+  color: #666666; 
+  font-size: 12px; 
+  margin-top: 24px; 
+}
+.switch-text button { font-size: 12px; padding: 0; }
+
+.demo-note { 
+  color: #999999; 
+  font-size: 10px; 
+  text-align: center; 
+  line-height: 1.5; 
+  margin-top: 18px; 
+}
+
+/* Media Queries */
+@media (min-height: 800px) { .hero { padding-top: 55px; } }
+
+@media (max-width: 380px) {
+  .auth-shell { padding-right: 16px; padding-left: 16px; }
+  .brand { gap: 9px; }
+  .brand-mark { width: 50px; height: 40px; flex-basis: 50px; }
+  .hero { padding-top: 28px; margin-bottom: 24px; }
+  .eagle-art { height: 125px; margin-bottom: 18px; }
+  h1 { font-size: clamp(32px, 10vw, 38px); }
+  .intro, .form-heading > p:last-child { font-size: 13px; }
+  .footer-note { font-size: 8px; letter-spacing: 1px; }
+}
+
+@media (max-height: 700px) {
+  .auth-shell { min-height: 100%; }
+  .hero { padding-top: 24px; margin-bottom: 20px; }
+  .eagle-art { height: 110px; margin-bottom: 16px; }
+  .eagle-art img { width: min(72%, 220px); }
+  .back-button { margin-top: 14px; margin-bottom: 20px; }
+  .form-heading { margin-bottom: 18px; }
+  .demo-note { margin-top: 12px; }
+}
